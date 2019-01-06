@@ -17,6 +17,18 @@ dqdqdqdqdqd = """
     group by date
     order by date asc"""
 
+# generating a date range. watch out for off by one errors. 
+q_date_range = """
+    WITH RECURSIVE dates(date) AS (
+      VALUES(date('now', '-8 day'))
+      UNION ALL
+      SELECT date(date, '+1 day')
+      FROM dates
+      WHERE date < date('now')
+    )
+    SELECT date FROM dates;
+    """
+
 # finding discounts
 disc_query = """
     select games.*, max_price_30d, avg_price_30d,
