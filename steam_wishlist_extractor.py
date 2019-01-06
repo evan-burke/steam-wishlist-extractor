@@ -7,6 +7,30 @@ import datetime
 import sqlite3
 import importlib.util
 
+
+# example query for monitoring
+
+dqdqdqdqdqd = """
+    select date, count(*)
+    from games
+    where date >= date('now', '-8 day')
+    group by date
+    order by date asc"""
+
+# finding discounts
+disc_query = """
+    select games.*, max_price_30d, avg_price_30d,
+    round(100*(1-sale_price/avg_price_30d),0) as discount_30d
+    from games
+    join (select app_id, avg(orig_price) as avg_price_30d, max(orig_price) as max_price_30d
+        from games
+        where date > date('now', '-30 day')
+        group by app_id) ga on games.app_id=ga.app_id
+    where games.date = (select max(date) from games)
+    and (games.orig_price < avg_price_30d-0.05 or games.sale_price < avg_price_30d-0.05)
+    """
+
+
 # ------------------------------------------
 # CONFIG
 
