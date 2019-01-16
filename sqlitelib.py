@@ -1,4 +1,6 @@
 
+# also published as a gist - https://gist.github.com/evan-burke/9b690d0df243b9bb0a72b3f8109b7465
+
 """ This is pretty basic but makes it a little eaiser to use sqlite3 for common tasks.
 
     Example usage:
