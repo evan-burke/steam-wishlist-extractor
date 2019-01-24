@@ -1,3 +1,8 @@
+
+
+current status: this mostly just dumps your wishlist to a local sqlite db. lots more to build. 
+
+
 setup:
 1. edit steam_wishlist_extractor.py with your public steam wishlist URL and the local path of the sqlite wrapper lib.
 2. add to task scheduler. run daily. 
