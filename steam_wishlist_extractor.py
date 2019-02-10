@@ -1,11 +1,13 @@
 ### Grabs prices from the specified steam wishlist and logs them in a db daily.
 
-import requests
-from bs4 import BeautifulSoup
+import platform
 import json
 import datetime
 import sqlite3
 import importlib.util
+import requests
+from bs4 import BeautifulSoup
+
 
 
 # example query for monitoring
@@ -17,7 +19,7 @@ dqdqdqdqdqd = """
     group by date
     order by date asc"""
 
-# generating a date range. watch out for off by one errors. 
+# generating a date range. watch out for off by one errors.
 q_date_range = """
     WITH RECURSIVE dates(date) AS (
       VALUES(date('now', '-8 day'))
@@ -57,11 +59,18 @@ dbfile = "steam_wishlist.db"
 
 verbose = 0
 
-dblib_location = "C:/pylib/sqlitelib.py"
+win_dblib_location = "C:/pylib/sqlitelib.py"
+linux_dblib_location = "/mnt/c/pylib/sqlitelib.py"
 
 # ------------------------------------------
 
 # custom path for local library imports
+
+platform = platform.system()
+if platform == 'Linux':
+    dblib_location = linux_dblib_location
+else:
+    dblib_Location = win_dblib_location
 
 spec = importlib.util.spec_from_file_location("sqlitelib", dblib_location)
 dblib = importlib.util.module_from_spec(spec)
